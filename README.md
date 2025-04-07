@@ -20,8 +20,10 @@ This is a simple full-stack CRUD (Create, Read, Update, Delete) project built as
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/AmirHosseinKhedmatgozar/mern-crud-app
+.git
+cd mern-crud-app
+
 ```
 
 ### 2. Install dependencies
@@ -35,7 +37,7 @@ npm install
 Inside the `server` folder, create a `.env` file:
 
 ```env
-MONGO_URI=your_mongodb_connection_string
+MONGO_URI=mongodb+srv://amirhosein138134:13810424@cluster0.7mad5.mongodb.net/CRUD
 ```
 
 ### 4. Run the project
@@ -51,17 +53,6 @@ This command will run both the frontend and backend concurrently, using the foll
 ```
 
 ---
-
-## 📁 Project Structure
-
-```
-.
-├── client/           # React frontend
-├── server/           # Express backend & MongoDB connection
-├── .env              # Environment variables (not included in repo)
-├── package.json      # Main scripts and dependencies
-└── README.md         # Project documentation
-```
 
 ---
 
@@ -81,14 +72,8 @@ This command will run both the frontend and backend concurrently, using the foll
 
 ---
 
-## 👨‍💻 Author
-
-This project was created for learning purposes. Feel free to contribute, suggest improvements, or fork it for your own use!
-
----
-
 ## 📸 Demo (optional)
 
-You can add a screenshot or GIF here to showcase your app UI.
+![Screenshot](./src/image/screenshot.png)
 
 ---
