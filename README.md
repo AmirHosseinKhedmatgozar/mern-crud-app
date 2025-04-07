@@ -72,7 +72,7 @@ This command will run both the frontend and backend concurrently, using the foll
 
 ---
 
-## 📸 Demo (optional)
+## 📸 Demo
 
 ![Screenshot](./src/image/screenshot.png)
 
