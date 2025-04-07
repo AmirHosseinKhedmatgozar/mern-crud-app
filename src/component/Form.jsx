@@ -1,15 +1,29 @@
 import { Box, Button, TextField } from "@mui/material";
 import { useFormik } from "formik";
-import { useState } from "react";
-import axios from "axios";
-import * as yup from "yup";
+import { useEffect, useState } from "react";
 import { useAddForm } from "../context/AddFormContext";
 import { useFetchUser } from "../hooks/useFetchUser";
+import axios from "axios";
+import * as yup from "yup";
 
 function Form({ addUser, editUser, setCloseModal }) {
   const [toggleButton, setToggleButton] = useState(true);
+  const [userData, setUserData] = useState({});
   const { setOpenAddForm } = useAddForm();
   const { fetchUsers } = useFetchUser();
+
+  useEffect(
+    function () {
+      if (editUser) {
+        const userId = localStorage.getItem("userId");
+        axios.get(`http://localhost:3001/getUser/${userId}`).then((res) => {
+          setUserData(res.data[0]);
+        });
+      }
+    },
+    [editUser]
+  );
+
   function onSubmit(valuse) {
     if (addUser) {
       axios
@@ -56,12 +70,13 @@ function Form({ addUser, editUser, setCloseModal }) {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      age: "",
-      email: "",
+      name: userData.name || "",
+      age: userData.age || "",
+      email: userData.email || "",
     },
     onSubmit: onSubmit,
     validationSchema: validationSchema,
+    enableReinitialize: true,
   });
 
   if (!toggleButton) return null;
