@@ -68,6 +68,11 @@ This will run both frontend and backend using:
 - **Secure routes using JWT**
 - **Forms with MUI design**
 
+## ✅ DEMO
+
+![home page](image-1.png)
+![login page](image.png)
+
 ## 💡 Notes
 
 - Make sure MongoDB is running (locally or via MongoDB Atlas).
