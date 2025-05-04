@@ -15,14 +15,23 @@ const style = {
   p: 2,
 };
 
-function ModalUI({ open, close }) {
-  const [closeModal, setCloseModal] = React.useState(null);
-  if (closeModal) return null;
+function ModalUI({ open, close, setOpenModal }) {
   return (
     <div>
-      <Modal open={open} onClose={close}>
+      <Modal
+        open={open}
+        onClose={close}
+        disableEnforceFocus
+        disableAutoFocus
+        disableRestoreFocus
+        container={document.getElementById("modal-root")}
+      >
         <Box sx={style}>
-          <Form editUser={true} setCloseModal={setCloseModal} />
+          <Form
+            editUser={true}
+            setCloseModal={setOpenModal}
+            setOpenModal={setOpenModal}
+          />
         </Box>
       </Modal>
     </div>

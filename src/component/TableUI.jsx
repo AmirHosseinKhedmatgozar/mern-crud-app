@@ -8,53 +8,65 @@ import Paper from "@mui/material/Paper";
 import ModalUI from "./Modal";
 import Form from "./Form";
 import axios from "axios";
-import { Box, Button } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useFetchUser } from "../hooks/useFetchUser";
+import toast from "react-hot-toast";
+import ErrorComponent from "./ErrorComponent";
+import LoadingComponent from "./LoadingComponent";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import { useState } from "react";
 import { useAddForm } from "../context/AddFormContext";
+import { useFetchData } from "../hooks/useFetchData";
 
 function TableUI() {
   const [openModal, setOpenModal] = useState(false);
   const { openAddForm, setOpenAddForm } = useAddForm();
-  const { users, fetchUsers } = useFetchUser();
-
-  useEffect(
-    function () {
-      fetchUsers();
-    },
-    [fetchUsers]
-  );
+  const { data: users, loading, error } = useFetchData("usersForm");
 
   function handleEdit(row) {
-    if (!openModal) {
-      setOpenModal(true);
-      localStorage.setItem("userId", row?._id);
-    }
+    localStorage.setItem("userId", row?._id);
+    setOpenModal(true);
   }
+
   function handleDelete(row) {
     axios
-      .delete(`http://localhost:3001/deleteUser/${row?._id}`)
+      .delete(`http://localhost:3001/usersForm/deleteUser/${row?._id}`)
       .then(() => {
-        fetchUsers();
+        toast.success("Successfully deleted user!");
+        window.location.reload();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast.error("Failed to delete user!");
+        console.log(err);
+      });
   }
 
   function handleCloseModal() {
     setOpenModal(false);
   }
+
   function handleShowForm() {
     setOpenAddForm((s) => !s);
+  }
+
+  if (loading) {
+    return <LoadingComponent />;
+  }
+
+  if (error) {
+    return <ErrorComponent error={error} />;
   }
 
   return (
     <Box
       sx={{
-        width: "100% ",
+        width: "100%",
         mt: "50px",
       }}
     >
-      <ModalUI open={openModal} close={handleCloseModal} />
+      <ModalUI
+        open={openModal}
+        close={handleCloseModal}
+        setOpenModal={setOpenModal}
+      />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
           <TableHead sx={{ backgroundColor: "#99dfff" }}>

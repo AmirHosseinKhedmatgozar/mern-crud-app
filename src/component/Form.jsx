@@ -2,34 +2,35 @@ import { Box, Button, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useAddForm } from "../context/AddFormContext";
-import { useFetchUser } from "../hooks/useFetchUser";
 import axios from "axios";
 import * as yup from "yup";
 
-function Form({ addUser, editUser, setCloseModal }) {
+function Form({ addUser, editUser, setCloseModal, setOpenModal }) {
   const [toggleButton, setToggleButton] = useState(true);
   const [userData, setUserData] = useState({});
   const { setOpenAddForm } = useAddForm();
-  const { fetchUsers } = useFetchUser();
 
   useEffect(
     function () {
       if (editUser) {
         const userId = localStorage.getItem("userId");
-        axios.get(`http://localhost:3001/getUser/${userId}`).then((res) => {
-          setUserData(res.data[0]);
-        });
+        axios
+          .get(`http://localhost:3001/usersForm/getUser/${userId}`)
+          .then((res) => {
+            setUserData(res.data[0]);
+            setOpenModal(true);
+          });
       }
     },
-    [editUser]
+    [editUser, setOpenModal]
   );
 
   function onSubmit(valuse) {
     if (addUser) {
       axios
-        .post("http://localhost:3001/createUser", valuse)
+        .post("http://localhost:3001/usersForm/createUser", valuse)
         .then(() => {
-          fetchUsers();
+          window.location.reload();
           setToggleButton(false);
           setOpenAddForm(false);
         })
@@ -39,11 +40,11 @@ function Form({ addUser, editUser, setCloseModal }) {
     if (editUser) {
       const userId = localStorage.getItem("userId");
       axios
-        .patch(`http://localhost:3001/updateUser/`, { userId, ...valuse })
+        .patch(`http://localhost:3001/usersForm/updateUser/${userId}`, valuse)
         .then(() => {
-          fetchUsers();
+          window.location.reload();
           setToggleButton(false);
-          setCloseModal(true);
+          setCloseModal(false);
         })
         .catch((err) => console.log(err));
     }
