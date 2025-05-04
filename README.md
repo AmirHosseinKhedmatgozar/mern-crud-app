@@ -42,7 +42,8 @@ Create a .env file like the env.example file
 
 ```env
 MONGO_URI=mongodb+srv://<your-username>:<your-password>@cluster.mongodb.net/CRUD
-JWT_SECRET=your_jwt_secret_key
+ACCESS_TOKEN_SECRET=your_accessToken
+REFRESH_TOKEN_SECRET=your_refreshToken
 ```
 
 ### 4. Run the application
